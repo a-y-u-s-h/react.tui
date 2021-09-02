@@ -1,0 +1,75 @@
+{
+  "name": "react-blessed",
+  "version": "0.7.2",
+  "description": "A react renderer for blessed.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.es.js",
+  "scripts": {
+    "build": "npm run clean && rollup -c",
+    "clean": "rimraf dist",
+    "demo": "node run.js",
+    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
+    "prettier": "prettier --write './**/*.js' './**/*.jsx'",
+    "test": "mocha -R spec --require @babel/register ./test/endpoint.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yomguithereal/react-blessed.git"
+  },
+  "keywords": [
+    "blessed",
+    "react",
+    "renderer",
+    "cli",
+    "interface"
+  ],
+  "author": "yomguithereal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yomguithereal/react-blessed/issues"
+  },
+  "browserslist": "maintained node versions",
+  "homepage": "https://github.com/yomguithereal/react-blessed#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
+    "@babel/plugin-transform-flow-strip-types": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
+    "@babel/register": "^7.12.10",
+    "@yomguithereal/prettier-config": "^1.1.0",
+    "blessed": "^0.1.81",
+    "invariant": "^2.2.0",
+    "lodash": "^4.17.20",
+    "mocha": "^8.2.1",
+    "neo-blessed": "^0.2.0",
+    "prettier": "^2.2.1",
+    "react": "^17.0.1",
+    "react-devtools-core": "4.10.1",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.38.5",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0"
+  },
+  "peerDependencies": {
+    "blessed": ">=0.1.81 <0.2.0",
+    "react": ">=17.0.1 <18.0.0",
+    "react-devtools-core": ">=4.10.1 <5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "blessed": {
+      "optional": true
+    },
+    "react-devtools-core": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "react-reconciler": "^0.26.1"
+  },
+  "prettier": "@yomguithereal/prettier-config"
+}

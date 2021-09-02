@@ -1,0 +1,84 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var xstate = require('xstate');
+var utils = require('./utils.js');
+
+function createInspectMachine(devTools) {
+    if (devTools === void 0) { devTools = globalThis.__xstate__; }
+    var serviceMap = new Map();
+    // Listen for services being registered and index them
+    // by their sessionId for quicker lookup
+    var sub = devTools.onRegister(function (service) {
+        serviceMap.set(service.sessionId, service);
+    });
+    return xstate.createMachine({
+        initial: 'pendingConnection',
+        context: {
+            client: undefined
+        },
+        states: {
+            pendingConnection: {},
+            connected: {
+                on: {
+                    'service.state': {
+                        actions: function (ctx, e) { return ctx.client.send(e); }
+                    },
+                    'service.event': {
+                        actions: function (ctx, e) { return ctx.client.send(e); }
+                    },
+                    'service.register': {
+                        actions: function (ctx, e) { return ctx.client.send(e); }
+                    },
+                    'service.stop': {
+                        actions: function (ctx, e) { return ctx.client.send(e); }
+                    },
+                    'xstate.event': {
+                        actions: function (_, e) {
+                            var event = e.event;
+                            var scxmlEventObject = JSON.parse(event);
+                            var service = serviceMap.get(scxmlEventObject.origin);
+                            service === null || service === void 0 ? void 0 : service.send(scxmlEventObject);
+                        }
+                    },
+                    unload: {
+                        actions: function (ctx) {
+                            ctx.client.send({ type: 'xstate.disconnect' });
+                        }
+                    },
+                    disconnect: 'disconnected'
+                }
+            },
+            disconnected: {
+                entry: function () {
+                    sub.unsubscribe();
+                },
+                type: 'final'
+            }
+        },
+        on: {
+            'xstate.inspecting': {
+                target: '.connected',
+                actions: [
+                    xstate.assign({
+                        client: function (_, e) { return e.client; }
+                    }),
+                    function (ctx) {
+                        devTools.services.forEach(function (service) {
+                            var _a;
+                            (_a = ctx.client) === null || _a === void 0 ? void 0 : _a.send({
+                                type: 'service.register',
+                                machine: utils.stringify(service.machine),
+                                state: utils.stringify(service.state || service.initialState),
+                                sessionId: service.sessionId
+                            });
+                        });
+                    }
+                ]
+            }
+        }
+    });
+}
+
+exports.createInspectMachine = createInspectMachine;

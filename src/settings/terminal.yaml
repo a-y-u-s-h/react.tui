@@ -1,0 +1,7 @@
+screen:
+  autoPadding: true
+  smartCSR: true
+quit:
+  - escape
+  - q
+  - C-c

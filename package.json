@@ -1,0 +1,121 @@
+{
+  "name": "react.tui",
+  "version": "1.0.0",
+  "author": "Ayush Sharma <code.ayush@gmail.com>",
+  "license": "MIT",
+  "main": "build/react.tui.min.js",
+  "bin": {
+    "react.tui": "./build/react.tui.min.js"
+  },
+  "repository": "git://github.com/a-y-u-s-h/react.tui",
+  "scripts": {
+    "clean": "rimraf build",
+    "predevelop": "yarn clean",
+    "develop": "rollup --config --watch --silent",
+    "prebuild": "yarn clean",
+    "build": "rollup --config",
+    "prepare": "yarn format",
+    "format": "prettier --write 'src/**/*.{js,jsx}'",
+    "update": "npx npm-check-updates -u --timeout 300000 && yarn install --no-lockfile",
+    "prerelease": "yarn prepare && yarn build",
+    "release": "npm login && npm publish --access=public"
+  },
+  "precommit": [
+    "prepare"
+  ],
+  "dependencies": {
+    "@xstate/react": "^1.6.1",
+    "blessed": "npm:neo-blessed",
+    "neo-blessed": "^0.2.0",
+    "react": "^17.0.2",
+    "react-blessed": "^0.7.2",
+    "react-blessed-contrib": "^0.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-react": "^7.14.5",
+    "@rollup/plugin-alias": "^3.1.5",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-dsv": "^2.0.2",
+    "@rollup/plugin-image": "^2.1.1",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "@rollup/plugin-replace": "^3.0.0",
+    "@rollup/plugin-run": "^2.1.0",
+    "@rollup/plugin-wasm": "^5.1.2",
+    "@rollup/plugin-yaml": "^3.1.0",
+    "@xstate/inspect": "^0.5.0",
+    "@xstate/test": "^0.4.2",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "pre-commit": "^1.2.2",
+    "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.56.3",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-terser": "^7.0.2",
+    "xstate": "^4.23.3"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": false,
+    "trailingComma": "none",
+    "tabWidth": 2,
+    "printWidth": 80,
+    "arrowParens": "avoid",
+    "bracketSpacing": true,
+    "jsxBracketSameLine": false,
+    "requirePragma": false,
+    "proseWrap": "preserve",
+    "htmlWhitespaceSensitivity": "css",
+    "overrides": [
+      {
+        "files": "*.sass",
+        "options": {
+          "printWidth": 999
+        }
+      },
+      {
+        "files": "*.mdx",
+        "options": {
+          "tabWidth": 2,
+          "printWidth": 80,
+          "proseWrap": "always"
+        }
+      },
+      {
+        "files": "*.md",
+        "options": {
+          "tabWidth": 2,
+          "printWidth": 80,
+          "proseWrap": "always",
+          "htmlWhitespaceSensitivity": "strict"
+        }
+      },
+      {
+        "files": "*.html",
+        "options": {
+          "htmlWhitespaceSensitivity": "strict"
+        }
+      }
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react",
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": true
+          }
+        }
+      ]
+    ]
+  }
+}
